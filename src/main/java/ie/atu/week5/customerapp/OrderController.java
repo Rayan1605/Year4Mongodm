@@ -1,6 +1,7 @@
 package ie.atu.week5.customerapp;
 
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,37 +10,29 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/orders")
+@AllArgsConstructor
 public class OrderController {
 
-    private final OrderRepository orderRepository;
+    private final OrderService orderService;
 
-    public OrderController(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
-    }
 
     @GetMapping
     public List<Order> getAllOrders() {
-        return orderRepository.findAll();
+    return orderService.getAllOrders();
     }
 
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<List<Order>> getOrdersByCustomerId(@PathVariable String customerId) {
-        List<Order> orders = orderRepository.findByCustomerId(customerId);
-        return ResponseEntity.ok(orders);
+        return  orderService.getOrdersByCustomerId(customerId);
     }
 
     @PostMapping
     public ResponseEntity<Order> createOrder(@Valid @RequestBody Order order) {
-        Order savedOrder = orderRepository.save(order);
-        return ResponseEntity.ok(savedOrder);
+        return orderService.createOrder(order);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable String id) {
-        if (orderRepository.existsById(id)) {
-            orderRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+       return orderService.deleteOrder(id);
     }
 }
