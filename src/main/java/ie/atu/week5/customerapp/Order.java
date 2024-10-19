@@ -11,8 +11,10 @@ public class Order {
 
     @Id
     private String id;
+    @NotBlank(message = "Please give an order code")
     private int orderCode;
+    @NotBlank(message = "Please give an order details")
     private String orderDetails;
-    private String orderDate;
+    @NotBlank(message = "Please give a customer id")
     private String customerId; // Reference to the associated customer
 }

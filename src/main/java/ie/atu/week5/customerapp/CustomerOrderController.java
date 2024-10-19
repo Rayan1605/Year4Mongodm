@@ -1,5 +1,6 @@
 package ie.atu.week5.customerapp;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class CustomerOrderController {
     private final CustomerOrderService customerOrderService;
 
     @PostMapping("/customer-with-orders")
-    public ResponseEntity<String> createCustomerWithOrders(@RequestBody CustomerOrderRequest customerOrderRequest) {
+    public ResponseEntity<String> createCustomerWithOrders(@Valid  @RequestBody CustomerOrderRequest customerOrderRequest) {
 
         return customerOrderService.createCustomerWithOrders(customerOrderRequest);
     }
